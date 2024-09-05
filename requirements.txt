@@ -1,0 +1,7 @@
+rich
+fs
+fs-sshfs
+typer
+paramiko
+PyYAML
+omegaconf
