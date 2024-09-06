@@ -6,12 +6,14 @@ from matterhorn.core.filesystem import (
     PyFilesystemFactory,
     CopyInstruction,
 )
-from matterhorn.core.utils import Options
+from matterhorn.core.utils import Options, LaunchOptions
 from matterhorn.core.executor import CommandExecutor
 from matterhorn.core.ssh import SSHExecutor, ConnectionData
 from matterhorn.core.ui import UI
 from matterhorn.core.application import Application
-from typing import Any, Dict, List, Union, cast, Optional, Protocol
+from typing import Any, Dict, List, Union, cast, Optional, Protocol, Tuple
+from omegaconf import OmegaConf
+from dacite import from_dict
 
 
 class ServiceRegistry(Protocol):
@@ -81,6 +83,8 @@ def expand_or_none(config_entry: Optional[str]) -> Optional[str]:
 
     return os.path.expandvars(config_entry)
 
+def copy_instructions(copy_list: List[Dict[str, str]]) -> List[CopyInstruction]:
+    return [copy_instruction_from_dict(cp) for cp in copy_list]
 
 def connection_data_from_dict(config: Dict[str, str]) -> ConnectionData:
     return ConnectionData(
@@ -110,3 +114,33 @@ def connection_dict(
         "connection": connection_data_from_dict(config),
         "proxyjumps": proxyjumps(config.get("proxyjumps", [])),
     }
+
+def parse_sbatch(config: Dict[str, Any]) -> Tuple[str, Optional[CopyInstruction]]:
+    sbatch: Union[str, Dict[str, str]] = config["sbatch"]
+    if isinstance(sbatch, str):
+        return sbatch, None
+
+    copy = copy_instruction_from_dict(sbatch, dest_keyname="script")
+    script = copy.destination
+
+    return script, copy
+
+def construct_launch_options(config: Dict, watch: bool) -> Options:
+    sbatch, sbatch_copy_instruction = parse_sbatch(config)
+    files_to_copy = copy_instructions(config.get("copy", []))
+    if sbatch_copy_instruction:
+        files_to_copy.append(sbatch_copy_instruction)
+    print(config)
+    return LaunchOptions(
+        sbatch=os.path.expandvars(sbatch),
+        watch=watch,
+        copy_files=files_to_copy,
+        clean_files=clean_instructions(config.get("clean", [])),
+        collect_files=copy_instructions(config.get("collect", [])),
+        continue_if_job_fails=config.get("continue_if_job_fails", False),
+        job_id_file='test',
+        **connection_dict(config),  # type: ignore
+    )
+
+def parse_config(config_filepath: str) -> Dict:
+    return OmegaConf.to_container(OmegaConf.load(config_filepath))
