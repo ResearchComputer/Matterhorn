@@ -2,8 +2,8 @@ from dataclasses import dataclass, field
 from enum import Enum, auto
 from typing import List, Union
 
-from matterhorn.core.filesystem.progressive import CopyInstruction
-from matterhorn.core.ssh.connectiondata import ConnectionData
+from rcc.core.filesystem.progressive import CopyInstruction
+from rcc.core.ssh.connectiondata import ConnectionData
 
 Options = Union[
     "LaunchOptions", "ImmediateCommandOptions", "WatchOptions", "FinalizeOptions"

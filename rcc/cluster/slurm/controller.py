@@ -1,8 +1,8 @@
 from typing import Optional
-from matterhorn.core.executor import CommandExecutor, RunningCommand
-from matterhorn.core.job import JobWatcherFactory, JobWatcherImpl
-from matterhorn.core.utils import ClusterError
-from matterhorn.cluster._base import Controller
+from rcc.core.executor import CommandExecutor, RunningCommand
+from rcc.core.job import JobWatcherFactory, JobWatcherImpl
+from rcc.core.utils import ClusterError
+from rcc.cluster._base import Controller
 
 from .job import SlurmJobStatus, SlurmBatchJob
 

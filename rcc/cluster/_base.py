@@ -1,9 +1,9 @@
 from abc import ABC, abstractmethod
 from typing import Optional
-from matterhorn.core.executor import CommandExecutor
-from matterhorn.core.job.job_watcher import JobWatcherFactory, JobWatcherImpl
-from matterhorn.core.job.batch_job import BaseBatchJob
-from matterhorn.core.job import BaseJobStatus
+from rcc.core.executor import CommandExecutor
+from rcc.core.job.job_watcher import JobWatcherFactory, JobWatcherImpl
+from rcc.core.job.batch_job import BaseBatchJob
+from rcc.core.job import BaseJobStatus
 
 
 class Controller(ABC):

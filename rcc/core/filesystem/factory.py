@@ -1,11 +1,11 @@
 import os
-from matterhorn.core.filesystem import Filesystem, FilesystemFactory
+from rcc.core.filesystem import Filesystem, FilesystemFactory
 from .localfs import localfilesystem
 from .sshfs import sshfilesystem
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:
-    from matterhorn.core.utils import Options
+    from rcc.core.utils import Options
 
 
 class PyFilesystemFactory(FilesystemFactory):

@@ -2,14 +2,14 @@ import typer
 from typing import Optional, Any
 import signal
 import sys
-from matterhorn.core.ui import RichUI
-from matterhorn.cli.utils import create_application, construct_launch_options, ProductionServiceRegistry, parse_config
+from rcc.core.ui import RichUI
+from rcc.cli.utils import create_application, construct_launch_options, ProductionServiceRegistry, parse_config
 
 app = typer.Typer()
 
 
 @app.command()
-def run(config: str = typer.Option(..., help="Path to the config file")):
+def launch(config: str = typer.Option(..., help="Path to the config file")):
     config = parse_config(config)
     options = construct_launch_options(config, True)
     service_registry = ProductionServiceRegistry()
@@ -21,3 +21,7 @@ def run(config: str = typer.Option(..., help="Path to the config file")):
 
         signal.signal(signal.SIGINT, on_cancel)
         return application.run(options)
+
+@app.command()
+def server():
+    typer.echo("Server not implemented yet")

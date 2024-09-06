@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 from typing import Optional
 from .executor import CommandExecutor, RunningCommand
-from matterhorn.core.utils import ClusterError
+from rcc.core.utils import ClusterError
 from .job import JobWatcherFactory, JobWatcherImpl, BaseBatchJob, BaseJobStatus
 
 

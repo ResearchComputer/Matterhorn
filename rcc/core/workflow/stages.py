@@ -1,16 +1,16 @@
 from pathlib import Path
 from typing import List, Optional, Tuple, cast, Protocol
 
-from matterhorn.core.job import (
+from rcc.core.job import (
     BaseBatchJob,
     BaseJobStatus,
     JobStatusCallback,
     JobWatcher,
 )
-from matterhorn.cluster._base import Controller
-from matterhorn.core.ui import UI
-from matterhorn.core.utils import get_error_message, get_or_raise, NotWatchingError
-from matterhorn.core.filesystem import (
+from rcc.cluster._base import Controller
+from rcc.core.ui import UI
+from rcc.core.utils import get_error_message, get_or_raise, NotWatchingError
+from rcc.core.filesystem import (
     FilesystemFactory,
     CopyInstruction,
     progressive_clean,

@@ -1,6 +1,6 @@
 from typing import TYPE_CHECKING, Callable, Optional
 
-from matterhorn.core.utils import get_or_raise, NotWatchingError
+from rcc.core.utils import get_or_raise, NotWatchingError
 from .watcher_thread import WatcherThread, WatcherThreadImpl
 
 try:

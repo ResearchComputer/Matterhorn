@@ -4,7 +4,7 @@ from .job_watcher import JobWatcherFactory, JobWatcherImpl, JobWatcher
 from .job_status import BaseJobStatus
 
 if TYPE_CHECKING:
-    from matterhorn.core.controller import BaseController
+    from rcc.core.controller import BaseController
 
 
 class BaseBatchJob:

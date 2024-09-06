@@ -1,5 +1,5 @@
 [project]
-name = "matterhorn"
+name = "rcc"
 version = "0.0.1"
 description = "HPC Management Tool"
 authors = [{ name = "Xiaozhe Yao", email = "askxzyao@gmail.com" }]
@@ -25,7 +25,7 @@ classifiers = [
 ]
 
 [project.scripts]
-matterhorn = "matterhorn.cli.main:app"
+rcc = "rcc.cli.main:app"
 
 [build-system]
 requires = ["pdm-pep517>=1.0.0"]
@@ -39,8 +39,8 @@ fmt = "black ."
 doc = "sphinx-build -b html docs/source docs/build/html"
 test = "pytest test -m 'not acceptance and not integration' -vv"
 test-integration = "pytest test -m 'integration' -vv"
-typecheck = "mypy --strict matterhorn"
-lint = "ruff matterhorn"
+typecheck = "mypy --strict rcc"
+lint = "ruff rcc"
 
 [tool.pdm.dev-dependencies]
 dev = [

@@ -1,12 +1,12 @@
-from matterhorn.core.utils import get_error_message
-from matterhorn.core.executor import CommandExecutor
-from matterhorn.core.filesystem import FilesystemFactory
-from matterhorn.core.utils import Options
-from matterhorn.cluster.slurm.controller import SlurmController
+from rcc.core.utils import get_error_message
+from rcc.core.executor import CommandExecutor
+from rcc.core.filesystem import FilesystemFactory
+from rcc.core.utils import Options
+from rcc.cluster.slurm.controller import SlurmController
 
-from matterhorn.core.workflow import Workflow
-from matterhorn.core.workflow import make_workflow
-from matterhorn.core.ui import UI
+from rcc.core.workflow import Workflow
+from rcc.core.workflow import make_workflow
+from rcc.core.ui import UI
 
 
 class Application:

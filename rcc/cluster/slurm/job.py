@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from typing import List, Optional, TYPE_CHECKING
-from matterhorn.core.job import (
+from rcc.core.job import (
     BaseJobStatus,
     TaskStatus,
     JobWatcherFactory,

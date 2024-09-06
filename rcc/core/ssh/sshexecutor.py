@@ -3,9 +3,9 @@ from typing import List, Optional, cast
 
 import paramiko as pm
 import paramiko.channel as channel
-from matterhorn.core.executor import CommandExecutor, RunningCommand
+from rcc.core.executor import CommandExecutor, RunningCommand
 from .connectiondata import ConnectionData
-from matterhorn.core.utils import SSHError
+from rcc.core.utils import SSHError
 
 
 class RemoteCommand(RunningCommand):

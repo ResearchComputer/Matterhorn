@@ -6,7 +6,7 @@ from rich.live import Live
 from rich.spinner import Spinner
 from rich.table import Table
 
-from matterhorn.core.job import BaseJobStatus
+from rcc.core.job import BaseJobStatus
 
 try:
     from typing import Protocol

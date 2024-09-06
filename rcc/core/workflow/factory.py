@@ -1,8 +1,8 @@
 from typing import Any, Callable, Dict, Type
 
 from . import workflow
-from matterhorn.core.filesystem import FilesystemFactory
-from matterhorn.core.utils import (
+from rcc.core.filesystem import FilesystemFactory
+from rcc.core.utils import (
     FinalizeOptions,
     JobBasedOptions,
     LaunchOptions,
@@ -10,7 +10,7 @@ from matterhorn.core.utils import (
     ImmediateCommandOptions,
     WatchOptions,
 )
-from matterhorn.cluster._base import Controller
+from rcc.cluster._base import Controller
 from .workflow import Workflow
 
 

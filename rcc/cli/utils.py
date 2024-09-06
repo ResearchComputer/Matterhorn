@@ -1,16 +1,16 @@
 import os
-from matterhorn.core.filesystem import (
+from rcc.core.filesystem import (
     Filesystem,
     localfilesystem,
     FilesystemFactory,
     PyFilesystemFactory,
     CopyInstruction,
 )
-from matterhorn.core.utils import Options, LaunchOptions
-from matterhorn.core.executor import CommandExecutor
-from matterhorn.core.ssh import SSHExecutor, ConnectionData
-from matterhorn.core.ui import UI
-from matterhorn.core.application import Application
+from rcc.core.utils import Options, LaunchOptions
+from rcc.core.executor import CommandExecutor
+from rcc.core.ssh import SSHExecutor, ConnectionData
+from rcc.core.ui import UI
+from rcc.core.application import Application
 from typing import Any, Dict, List, Union, cast, Optional, Protocol, Tuple
 from omegaconf import OmegaConf
 from dacite import from_dict
@@ -130,7 +130,6 @@ def construct_launch_options(config: Dict, watch: bool) -> Options:
     files_to_copy = copy_instructions(config.get("copy", []))
     if sbatch_copy_instruction:
         files_to_copy.append(sbatch_copy_instruction)
-    print(config)
     return LaunchOptions(
         sbatch=os.path.expandvars(sbatch),
         watch=watch,
