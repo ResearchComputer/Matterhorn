@@ -9,6 +9,9 @@ dependencies = [
   "fs-sshfs>=1.0.1",
   "rich>=10.1.0",
   "PyYAML>=5.4.1",
+  "typer",
+  "dacite",
+  "omegaconf",
 ]
 requires-python = ">=3.8"
 readme = "README.md"

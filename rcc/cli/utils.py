@@ -13,7 +13,6 @@ from rcc.core.ui import UI
 from rcc.core.application import Application
 from typing import Any, Dict, List, Union, cast, Optional, Protocol, Tuple
 from omegaconf import OmegaConf
-from dacite import from_dict
 
 
 class ServiceRegistry(Protocol):
@@ -63,18 +62,8 @@ def create_application(
     return Application(executor, filesystem_factory, ui)
 
 
-
 def proxyjumps(proxyjumps: List[Dict[str, str]]) -> List[ConnectionData]:
     return [connection_data_from_dict(proxy) for proxy in proxyjumps]
-
-
-def connection_dict(
-    config: Dict[str, Any]
-) -> Dict[str, Union[ConnectionData, List[ConnectionData]]]:
-    return {
-        "connection": connection_data_from_dict(config),
-        "proxyjumps": proxyjumps(config.get("proxyjumps", [])),
-    }
 
 
 def expand_or_none(config_entry: Optional[str]) -> Optional[str]:
@@ -83,8 +72,10 @@ def expand_or_none(config_entry: Optional[str]) -> Optional[str]:
 
     return os.path.expandvars(config_entry)
 
+
 def copy_instructions(copy_list: List[Dict[str, str]]) -> List[CopyInstruction]:
     return [copy_instruction_from_dict(cp) for cp in copy_list]
+
 
 def connection_data_from_dict(config: Dict[str, str]) -> ConnectionData:
     return ConnectionData(
@@ -93,6 +84,7 @@ def connection_data_from_dict(config: Dict[str, str]) -> ConnectionData:
         keyfile=expand_or_none(config.get("private_keyfile")),
         password=expand_or_none(str(config.get("password"))),
     )
+
 
 def copy_instruction_from_dict(
     cp: Dict[str, Any], dest_keyname: str = "to"
@@ -107,6 +99,7 @@ def copy_instruction_from_dict(
 def clean_instructions(clean_instructions: List[str]) -> List[str]:
     return [os.path.expandvars(ci) for ci in clean_instructions]
 
+
 def connection_dict(
     config: Dict[str, Any]
 ) -> Dict[str, Union[ConnectionData, List[ConnectionData]]]:
@@ -114,6 +107,7 @@ def connection_dict(
         "connection": connection_data_from_dict(config),
         "proxyjumps": proxyjumps(config.get("proxyjumps", [])),
     }
+
 
 def parse_sbatch(config: Dict[str, Any]) -> Tuple[str, Optional[CopyInstruction]]:
     sbatch: Union[str, Dict[str, str]] = config["sbatch"]
@@ -124,6 +118,7 @@ def parse_sbatch(config: Dict[str, Any]) -> Tuple[str, Optional[CopyInstruction]
     script = copy.destination
 
     return script, copy
+
 
 def construct_launch_options(config: Dict, watch: bool) -> Options:
     sbatch, sbatch_copy_instruction = parse_sbatch(config)
@@ -137,9 +132,34 @@ def construct_launch_options(config: Dict, watch: bool) -> Options:
         clean_files=clean_instructions(config.get("clean", [])),
         collect_files=copy_instructions(config.get("collect", [])),
         continue_if_job_fails=config.get("continue_if_job_fails", False),
-        job_id_file='test',
+        job_id_file="test",
         **connection_dict(config),  # type: ignore
     )
 
+
 def parse_config(config_filepath: str) -> Dict:
     return OmegaConf.to_container(OmegaConf.load(config_filepath))
+
+
+def merge_dicts(*dicts):
+    """
+    Merges multiple dictionaries into one dictionary.
+
+    Args:
+    *dicts: An arbitrary number of dictionaries to merge.
+
+    Returns:
+    A single dictionary containing all keys and values from the input dictionaries.
+    If the same key appears in more than one dictionary, the value from the last
+    dictionary with that key is used.
+
+    Example usage:
+    >>> d1 = {'a': 1, 'b': 2}
+    >>> d2 = {'b': 3, 'c': 4}
+    >>> merge_dicts(d1, d2)
+    {'a': 1, 'b': 3, 'c': 4}
+    """
+    merged_dict = {}
+    for dictionary in dicts:
+        merged_dict.update(dictionary)
+    return merged_dict
